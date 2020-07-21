@@ -2,6 +2,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class GrammarExercise {
@@ -35,7 +37,7 @@ public class GrammarExercise {
     }
 
     private static void validateWordList(String wordList) {
-        if (wordList.contains(",,") || wordList.matches("[^a-zA-Z]+")) {
+        if (wordList.contains(",,") || !wordList.matches("[a-zA-Z,]+")) {
             throw new RuntimeException("input not valid");
         }
     }
