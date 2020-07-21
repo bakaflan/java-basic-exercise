@@ -1,18 +1,42 @@
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class GrammarExercise {
     public static void main(String[] args) {
-        //需要从命令行读入
         String firstWordList = "";
         String secondWordList = "";
-
-        List<String> result = findCommonWordsWithSpace(firstWordList,secondWordList);
-        //按要求输出到命令行
+        Scanner input = new Scanner(System.in);
+        firstWordList = input.next();
+        secondWordList = input.next();
+        List<String> result = findCommonWordsWithSpace(firstWordList, secondWordList);
 
     }
 
     public static List<String> findCommonWordsWithSpace(String firstWordList, String secondWordList) {
-        //在这编写实现代码
-        return null;
+        validateWordList(firstWordList);
+        validateWordList(secondWordList);
+
+        List<String> firstList = Arrays.stream(firstWordList.split(","))
+                .map(String::toUpperCase)
+                .distinct()
+                .collect(Collectors.toList());
+        List<String> secondList = Arrays.stream(secondWordList.split(","))
+                .map(String::toUpperCase)
+                .distinct()
+                .collect(Collectors.toList());
+
+        return firstList.stream()
+                .filter(secondList::contains)
+                .map(w -> w.replace(""," ").trim())
+                .collect(Collectors.toList());
+    }
+
+    private static void validateWordList(String wordList) {
+        if (wordList.contains(",,") || wordList.matches("[^a-zA-Z]+")) {
+            throw new RuntimeException("input not valid");
+        }
     }
 }
